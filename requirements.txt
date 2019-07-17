@@ -1,0 +1,4 @@
+django==2.0
+django_oscar==2.0b1
+easy-thumbnails==2.6
+pycountry==19.7.15
