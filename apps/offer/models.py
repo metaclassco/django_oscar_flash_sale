@@ -1,7 +1,9 @@
-from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from decimal import Decimal as D
 
-from oscar.apps.offer.abstract_models import AbstractConditionalOffer
+from django.db import models
+from django.utils.translation import gettext_lazy as _
+
+from oscar.apps.offer.abstract_models import AbstractConditionalOffer, AbstractBenefit
 
 
 class ConditionalOffer(AbstractConditionalOffer):
@@ -14,6 +16,19 @@ class ConditionalOffer(AbstractConditionalOffer):
         (SESSION, _("Session offer - temporary offer, available for a user for the duration of their session")),
     )
     offer_type = models.CharField(_("Type"), choices=TYPE_CHOICES, default=SITE, max_length=128)
+
+
+class Benefit(AbstractBenefit):
+
+    def calculate_sale_price(self, product):
+        stock_record = product.stockrecords.first()
+        price = stock_record.price_excl_tax
+        if self.type == self.PERCENTAGE:
+            return self.round(self.value / D('100.0') * price)
+        elif self.type == self.FIXED:
+            return self.round(price - self.value)
+        elif self.type == self.FIXED_PRICE:
+            return self.value
 
 
 from oscar.apps.offer.models import *  # noqa isort:skip

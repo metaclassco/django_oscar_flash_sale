@@ -1,0 +1,31 @@
+{% load currency_filters %}
+{% load i18n %}
+{% load purchase_info_tags %}
+
+{% purchase_info_for_product request product as session %}
+
+{% if session.price.exists %}
+    <p class="price_color">
+        <span {% if product.sale_price %}style="color: silver; text-decoration: line-through"{% endif %}>
+            {% if session.price.excl_tax == 0 %}
+                {% trans "Free" %}
+            {% elif session.price.is_tax_known %}
+                {{ session.price.incl_tax|currency:session.price.currency }}
+            {% else %}
+                {{ session.price.excl_tax|currency:session.price.currency }}
+            {% endif %}
+        </span>
+
+      {{ product.sale_price|currency:session.price.currency }}
+    </p>
+{% else %}
+    <p class="price_color">&nbsp;</p>
+{% endif %}
+<p class="{{ session.availability.code }} availability">
+    <i class="icon-{% if session.availability.is_available_to_buy %}ok{% else %}remove{% endif %}"></i>
+    {% if verbose %}
+        {{ session.availability.message }}
+    {% else %}
+        {{ session.availability.short_message }}
+    {% endif %}
+</p>
