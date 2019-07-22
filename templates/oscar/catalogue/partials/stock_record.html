@@ -6,7 +6,7 @@
 
 {% if session.price.exists %}
     <p class="price_color">
-        <span {% if product.sale_price %}style="color: silver; text-decoration: line-through"{% endif %}>
+        <span {% if session.flash_price.excl_tax %}style="color: silver; text-decoration: line-through"{% endif %}>
             {% if session.price.excl_tax == 0 %}
                 {% trans "Free" %}
             {% elif session.price.is_tax_known %}
@@ -15,8 +15,14 @@
                 {{ session.price.excl_tax|currency:session.price.currency }}
             {% endif %}
         </span>
-
-      {{ product.sale_price|currency:session.price.currency }}
+        {% if session.flash_price.excl_tax %}
+            &nbsp;
+            {% if session.flash_price.is_tax_known %}
+                {{ session.flash_price.incl_tax|currency:session.price.currency }}
+            {% else %}
+                {{ session.flash_price.excl_tax|currency:session.price.currency }}
+            {% endif %}
+        {% endif %}
     </p>
 {% else %}
     <p class="price_color">&nbsp;</p>
