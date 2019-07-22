@@ -20,13 +20,13 @@ class ConditionalOffer(AbstractConditionalOffer):
 
 class Benefit(AbstractBenefit):
 
-    def calculate_sale_price(self, product):
-        stock_record = product.stockrecords.first()
-        price = stock_record.price_excl_tax
+    def calculate_flash_price(self, price):
         if self.type == self.PERCENTAGE:
-            return self.round(self.value / D('100.0') * price)
+            return price - self.value / D('100.0') * price
+
         elif self.type == self.FIXED:
-            return self.round(price - self.value)
+            return price - self.value
+
         elif self.type == self.FIXED_PRICE:
             return self.value
 
