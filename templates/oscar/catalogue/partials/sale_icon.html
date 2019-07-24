@@ -1,0 +1,7 @@
+{% if is_small %}
+    <div style="width: 50px; height: 50px; position: absolute; right: 0; top: 0; z-index: 2;">
+{% else %}
+    <div style="width: 96px; height: 96px; position: absolute; right: 0; top: 0; z-index: 2;">
+{% endif %}
+    {% include 'oscar/catalogue/partials/sale_icon.svg' %}
+</div>

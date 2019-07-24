@@ -1,0 +1,21 @@
+{% extends 'oscar/catalogue/partials/product.html' %}
+
+{% load image_tags %}
+
+
+{% block product_image %}
+
+    {% if product.get_flash_price_benefit %}
+        {# This product is on sale #}
+        {% include 'oscar/catalogue/partials/sale_icon.html' with is_small=True %}
+    {% endif %}
+
+    <div class="image_container">
+        {% with image=product.primary_image %}
+            {% oscar_thumbnail image.original "x155" upscale=False as thumb %}
+            <a href="{{ product.get_absolute_url }}">
+                <img src="{{ thumb.url }}" alt="{{ product.get_title }}" class="thumbnail">
+            </a>
+        {% endwith %}
+    </div>
+{% endblock %}
