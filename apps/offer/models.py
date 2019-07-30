@@ -7,10 +7,10 @@ from oscar.apps.offer.abstract_models import AbstractConditionalOffer, AbstractB
 
 
 class ConditionalOffer(AbstractConditionalOffer):
-    SITE, SALE, VOUCHER, USER, SESSION = "Site", "Sale", "Voucher", "User", "Session"
+    SITE, FLASH_SALE, VOUCHER, USER, SESSION = "Site", "Flash Sale", "Voucher", "User", "Session"
     TYPE_CHOICES = (
         (SITE, _("Site offer - available to all users")),
-        (SALE, _("Sale offer - for the particular products")),
+        (FLASH_SALE, _("Flash Sale offer - short-term discount for the specific product")),
         (VOUCHER, _("Voucher offer - only available after entering the appropriate voucher code")),
         (USER, _("User offer - available to certain types of user")),
         (SESSION, _("Session offer - temporary offer, available for a user for the duration of their session")),
