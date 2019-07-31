@@ -9,12 +9,16 @@ ConditionalOffer = get_model('offer', 'ConditionalOffer')
 
 class Product(AbstractProduct):
 
-    def get_flash_price_benefit(self):
-        if self.includes.filter(
-            benefit__offers__offer_type=ConditionalOffer.SALE,
+    @property
+    def has_active_flash_sales(self):
+        return self.includes.filter(
+            benefit__offers__offer_type=ConditionalOffer.FLASH_SALE,
             benefit__offers__start_datetime__lt=now(),
             benefit__offers__end_datetime__gt=now(),
-        ).exists():
+        ).exists()
+
+    def get_flash_price_benefit(self):
+        if self.has_active_flash_sales:
             range_ = self.includes.first()
             return range_.benefit_set.first()
 
