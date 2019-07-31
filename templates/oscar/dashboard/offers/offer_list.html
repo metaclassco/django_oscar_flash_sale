@@ -40,8 +40,8 @@
                     <tr>
                         <td><a href="{% url 'dashboard:offer-detail' pk=offer.pk %}">{{ offer.name }}</a></td>
                         <td>{{ offer.get_offer_type_display }}</td>
-                        <td>{{ offer.start_date|default:"-" }}</td>
-                        <td>{{ offer.end_date|default:"-" }}</td>
+                        <td>{{ offer.start_datetime|default:"-" }}</td>
+                        <td>{{ offer.end_datetime|default:"-" }}</td>
                         <td>{{ offer.priority }}</td>
                         <td>{{ offer.benefit.description|safe }}</td>
                         <td>{{ offer.condition.description|safe }}</td>
