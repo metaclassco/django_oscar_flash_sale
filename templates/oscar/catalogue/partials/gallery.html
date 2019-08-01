@@ -12,7 +12,7 @@
             <div class="thumbnail">
                 <div class="carousel-inner" role="listbox">
 
-                {% if product.get_flash_price_benefit %}
+                {% if product.has_active_flash_sales %}
                     {# This product is on sale #}
                     {% include 'oscar/catalogue/partials/sale_icon.html' %}
                 {% endif %}
