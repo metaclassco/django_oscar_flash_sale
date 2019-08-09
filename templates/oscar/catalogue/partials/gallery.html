@@ -1,6 +1,7 @@
 {% load image_tags %}
 {% load i18n %}
 {% load staticfiles %}
+{% load flash_sale_tags %}
 
 {% with all_images=product.get_all_images %}
     {# use length rather then count as the images get queried anyways #}
@@ -12,8 +13,8 @@
             <div class="thumbnail">
                 <div class="carousel-inner" role="listbox">
 
-                {% if product.has_active_flash_sales %}
-                    {# This product is on sale #}
+                {% is_product_on_sale product as is_on_sale %}
+                {% if is_on_sale %}
                     {% include 'oscar/catalogue/partials/sale_icon.html' %}
                 {% endif %}
 
@@ -55,8 +56,8 @@
             <div class="thumbnail">
                 <div class="carousel-inner">
 
-                    {% if product.get_flash_price_benefit %}
-                        {# This product is on sale #}
+                    {% is_product_on_sale product as is_on_sale %}
+                    {% if is_on_sale %}
                         {% include 'oscar/catalogue/partials/sale_icon.html' %}
                     {% endif %}
 

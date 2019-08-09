@@ -1,12 +1,13 @@
 {% extends 'oscar/catalogue/partials/product.html' %}
 
 {% load image_tags %}
+{% load flash_sale_tags %}
 
 
 {% block product_image %}
 
-    {% if product.has_active_flash_sales %}
-        {# This product is on sale #}
+    {% is_product_on_sale product as is_on_sale %}
+    {% if is_on_sale %}
         {% include 'oscar/catalogue/partials/sale_icon.html' with is_small=True %}
     {% endif %}
 

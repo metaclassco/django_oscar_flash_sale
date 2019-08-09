@@ -1,12 +1,16 @@
 from django import template
 
-
-from apps.offer.utils import get_flash_price
+from apps.offer import utils
 
 
 register = template.Library()
 
 
 @register.simple_tag
-def flash_sale_price(request, product, purchase_info):
-    return get_flash_price(request, product, purchase_info)
+def is_product_on_sale(product):
+    return utils.is_product_on_sale(product)
+
+
+@register.simple_tag
+def calculate_price_after_discount(request, product, purchase_info):
+    return utils.calculate_price_after_discount(request, product, purchase_info)

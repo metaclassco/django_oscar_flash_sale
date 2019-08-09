@@ -5,9 +5,11 @@
 
 {% purchase_info_for_product request product as session %}
 
+{% is_product_on_sale product as is_on_sale %}
+
 {% if session.price.exists %}
     <p class="price_color">
-        <span {% if product.has_active_flash_sales %}style="color: silver; text-decoration: line-through"{% endif %}>
+        <span {% if is_on_sale %}style="color: silver; text-decoration: line-through"{% endif %}>
             {% if session.price.excl_tax == 0 %}
                 {% trans "Free" %}
             {% elif session.price.is_tax_known %}
@@ -16,9 +18,9 @@
                 {{ session.price.excl_tax|currency:session.price.currency }}
             {% endif %}
         </span>
-        {% if product.has_active_flash_sales %}
+        {% if is_on_sale %}
             &nbsp;
-            {% flash_sale_price request product session as price %}
+            {% calculate_price_after_discount request product session as price %}
             {% if price.is_tax_known %}
                 {{ price.incl_tax|currency:session.price.currency }}
             {% else %}
