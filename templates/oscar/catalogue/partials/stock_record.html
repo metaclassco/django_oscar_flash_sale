@@ -1,12 +1,13 @@
 {% load currency_filters %}
 {% load i18n %}
 {% load purchase_info_tags %}
+{% load flash_sale_tags %}
 
 {% purchase_info_for_product request product as session %}
 
 {% if session.price.exists %}
     <p class="price_color">
-        <span {% if session.flash_price.excl_tax %}style="color: silver; text-decoration: line-through"{% endif %}>
+        <span {% if product.has_active_flash_sales %}style="color: silver; text-decoration: line-through"{% endif %}>
             {% if session.price.excl_tax == 0 %}
                 {% trans "Free" %}
             {% elif session.price.is_tax_known %}
@@ -15,12 +16,13 @@
                 {{ session.price.excl_tax|currency:session.price.currency }}
             {% endif %}
         </span>
-        {% if session.flash_price.excl_tax %}
+        {% if product.has_active_flash_sales %}
             &nbsp;
-            {% if session.flash_price.is_tax_known %}
-                {{ session.flash_price.incl_tax|currency:session.price.currency }}
+            {% flash_sale_price request product session as price %}
+            {% if price.is_tax_known %}
+                {{ price.incl_tax|currency:session.price.currency }}
             {% else %}
-                {{ session.flash_price.excl_tax|currency:session.price.currency }}
+                {{ price.excl_tax|currency:session.price.currency }}
             {% endif %}
         {% endif %}
     </p>
