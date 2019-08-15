@@ -27,8 +27,5 @@ class Benefit(AbstractBenefit):
         elif self.type == self.FIXED:
             return price - self.value
 
-        elif self.type == self.FIXED_PRICE:
-            return self.value
-
 
 from oscar.apps.offer.models import *  # noqa isort:skip
