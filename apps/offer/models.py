@@ -32,5 +32,3 @@ class Benefit(AbstractBenefit):
 
 
 from oscar.apps.offer.models import *  # noqa isort:skip
-
-from apps.offer.benefits import CustomPercentageDiscountBenefit, CustomAbsoluteDiscountBenefit
