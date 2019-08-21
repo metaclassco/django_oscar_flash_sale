@@ -1,9 +1,8 @@
-from decimal import Decimal as D
-
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from oscar.apps.offer.abstract_models import AbstractConditionalOffer, AbstractBenefit
+from oscar.core.loading import get_class
 
 
 class ConditionalOffer(AbstractConditionalOffer):
@@ -21,11 +20,17 @@ class ConditionalOffer(AbstractConditionalOffer):
 class Benefit(AbstractBenefit):
 
     def calculate_flash_price(self, price):
-        if self.type == self.PERCENTAGE:
-            return self.round(price - self.value / D('100.0') * price)
+        if self.type in [self.PERCENTAGE, self.FIXED]:
+            return price - self.proxy().get_discount(price)
 
-        elif self.type == self.FIXED:
-            return self.round(price - self.value)
+    @property
+    def proxy_map(self):
+        custom_proxy_map = super().proxy_map
+        custom_proxy_map[self.PERCENTAGE] = get_class('offer.benefits', 'CustomPercentageDiscountBenefit')
+        custom_proxy_map[self.FIXED] = get_class('offer.benefits', 'AbsoluteDiscountBenefit')
+        return custom_proxy_map
 
 
 from oscar.apps.offer.models import *  # noqa isort:skip
+
+from apps.offer.benefits import CustomPercentageDiscountBenefit, CustomAbsoluteDiscountBenefit
