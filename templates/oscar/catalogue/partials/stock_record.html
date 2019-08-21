@@ -20,12 +20,8 @@
         </span>
         {% if is_on_sale %}
             &nbsp;
-            {% calculate_price_after_discount request product session as price %}
-            {% if price.is_tax_known %}
-                {{ price.incl_tax|currency:session.price.currency }}
-            {% else %}
-                {{ price.excl_tax|currency:session.price.currency }}
-            {% endif %}
+            {% calculate_price_after_discount product session.price as sale_price %}
+            {{ sale_price|currency:session.price.currency }}
         {% endif %}
     </p>
 {% else %}

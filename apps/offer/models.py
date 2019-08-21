@@ -22,10 +22,10 @@ class Benefit(AbstractBenefit):
 
     def calculate_flash_price(self, price):
         if self.type == self.PERCENTAGE:
-            return price - self.value / D('100.0') * price
+            return self.round(price - self.value / D('100.0') * price)
 
         elif self.type == self.FIXED:
-            return price - self.value
+            return self.round(price - self.value)
 
 
 from oscar.apps.offer.models import *  # noqa isort:skip

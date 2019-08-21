@@ -1,3 +1,5 @@
+from decimal import Decimal as D
+
 from django.utils.timezone import now
 
 from oscar.core.loading import get_class, get_model
@@ -23,28 +25,12 @@ def get_flash_sale_benefit(product):
         return range_.benefit_set.filter(offers__offer_type=ConditionalOffer.FLASH_SALE).first()
 
 
-def calculate_price_after_discount(request, product, purchase_info):
-    price = purchase_info.price
-    stockrecord = purchase_info.stockrecord
-
-    if isinstance(price, UnavailablePrice):
-        return UnavailablePrice()
-
+def calculate_price_after_discount(product, price_data):
     benefit = get_flash_sale_benefit(product)
+
     if not benefit:
-        return UnavailablePrice()
+        return D('0.00')
 
-    flash_price = benefit.calculate_flash_price(price.excl_tax)
-    if not price.tax:
-        tax = price.tax
-    else:
-        strategy = request.strategy
-        rate = strategy.get_rate(product, stockrecord)
-        exponent = strategy.get_exponent(stockrecord)
-        tax = (flash_price * rate).quantize(exponent)
+    price = price_data.incl_tax if price_data.is_tax_known else price_data.excl_tax
 
-    return FixedPrice(
-        currency=price.currency,
-        excl_tax=flash_price,
-        tax=tax,
-    )
+    return benefit.calculate_flash_price(price)
