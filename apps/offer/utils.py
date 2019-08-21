@@ -33,4 +33,4 @@ def calculate_price_after_discount(product, price_data):
 
     price = price_data.incl_tax if price_data.is_tax_known else price_data.excl_tax
 
-    return benefit.calculate_flash_price(price)
+    return benefit.get_price_incl_discount(price)

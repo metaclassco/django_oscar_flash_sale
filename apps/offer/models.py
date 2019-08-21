@@ -19,7 +19,7 @@ class ConditionalOffer(AbstractConditionalOffer):
 
 class Benefit(AbstractBenefit):
 
-    def calculate_flash_price(self, price):
+    def get_price_incl_discount(self, price):
         if self.type in [self.PERCENTAGE, self.FIXED]:
             return price - self.proxy().get_discount(price)
 
