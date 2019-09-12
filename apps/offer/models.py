@@ -32,3 +32,4 @@ class Benefit(AbstractBenefit):
 
 
 from oscar.apps.offer.models import *  # noqa isort:skip
+from .benefits import *  # noqa isort:skip

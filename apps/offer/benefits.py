@@ -6,6 +6,9 @@ PercentageDiscountBenefit = get_class('offer.benefits', 'PercentageDiscountBenef
 AbsoluteDiscountBenefit = get_class('offer.benefits', 'AbsoluteDiscountBenefit')
 
 
+__all__ = ['PercentageDiscountBenefit', 'AbsoluteDiscountBenefit']
+
+
 class CustomPercentageDiscountBenefit(PercentageDiscountBenefit):
 
     def get_discount(self, price):
