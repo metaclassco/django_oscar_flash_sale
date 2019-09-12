@@ -20,7 +20,7 @@
         </span>
         {% if is_on_sale %}
             &nbsp;
-            {% calculate_price_after_discount product session.price as sale_price %}
+            {% calculate_product_price_incl_discounts product session.price as sale_price %}
             {{ sale_price|currency:session.price.currency }}
         {% endif %}
     </p>

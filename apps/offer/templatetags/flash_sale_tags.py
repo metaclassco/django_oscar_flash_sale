@@ -12,5 +12,5 @@ def is_product_on_sale(product):
 
 
 @register.simple_tag
-def calculate_price_after_discount(product, price_data):
-    return utils.calculate_price_after_discount(product, price_data)
+def calculate_product_price_incl_discounts(product, price_data):
+    return utils.calculate_product_price_incl_discounts(product, price_data)

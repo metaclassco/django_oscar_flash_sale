@@ -25,7 +25,7 @@ def get_flash_sale_benefit(product):
         return range_.benefit_set.filter(offers__offer_type=ConditionalOffer.FLASH_SALE).first()
 
 
-def calculate_price_after_discount(product, price_data):
+def calculate_product_price_incl_discounts(product, price_data):
     benefit = get_flash_sale_benefit(product)
 
     if not benefit:
@@ -33,4 +33,5 @@ def calculate_price_after_discount(product, price_data):
 
     price = price_data.incl_tax if price_data.is_tax_known else price_data.excl_tax
 
-    return benefit.get_price_incl_discount(price)
+    result = benefit.apply_to_product(price)
+    return price - result.discount

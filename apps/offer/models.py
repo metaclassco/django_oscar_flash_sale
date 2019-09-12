@@ -23,6 +23,10 @@ class Benefit(AbstractBenefit):
         if self.type in [self.PERCENTAGE, self.FIXED]:
             return price - self.proxy().get_discount(price)
 
+    def apply_to_product(self, price):
+        if self.type in [self.PERCENTAGE, self.FIXED]:
+            return self.proxy().apply_to_product(price)
+
     @property
     def proxy_map(self):
         custom_proxy_map = super().proxy_map
