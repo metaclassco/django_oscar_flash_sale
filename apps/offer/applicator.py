@@ -9,7 +9,7 @@ ConditionalOffer = get_model('offer', 'ConditionalOffer')
 
 class Applicator(CoreApplicator):
 
-    def get_sale_offers(self):
+    def get_flash_sale_offers(self):
         qs = ConditionalOffer.active.filter(offer_type=ConditionalOffer.FLASH_SALE)
         return qs.select_related('condition', 'benefit')
 
@@ -18,7 +18,7 @@ class Applicator(CoreApplicator):
         basket_offers = self.get_basket_offers(basket, user)
         user_offers = self.get_user_offers(user)
         session_offers = self.get_session_offers(request)
-        sale_offers = self.get_sale_offers()
+        sale_offers = self.get_flash_sale_offers()
 
         return list(
             sorted(chain(
