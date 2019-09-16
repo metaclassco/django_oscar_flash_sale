@@ -43,10 +43,12 @@ class CustomAbsoluteDiscountPerProductBenefit(AbsoluteDiscountBenefit):
                 break
             qty = min(
                 line.quantity_without_offer_discount(offer),
-                max_affected_items - num_affected_items
+                max_affected_items - num_affected_items,
+                line.quantity
             )
             lines_to_discount.append((line, price, qty))
             num_affected_items += qty
+
 
         discount_amount = self.value * num_affected_items
         return super().apply(
