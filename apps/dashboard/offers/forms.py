@@ -11,6 +11,7 @@ Benefit = get_model('offer', 'Benefit')
 class FlashSaleForm(forms.Form):
     TYPE_CHOICES = (
         (Benefit.PERCENTAGE, _("Discount is a percentage off of the product's value")),
+        (Benefit.FIXED_PRICE, _("Get the products that meet the condition for a fixed price")),
         (Benefit.FIXED_PER_PRODUCT, _("Discount is a fixed amount off of each product's value that match condition")),
     )
 
