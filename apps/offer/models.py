@@ -18,6 +18,25 @@ class ConditionalOffer(AbstractConditionalOffer):
 
 
 class Benefit(AbstractBenefit):
+    PERCENTAGE, FIXED, MULTIBUY, FIXED_PRICE, FIXED_PER_PRODUCT = (
+        "Percentage", "Absolute", "Multibuy", "Fixed price", "Fixed per product")
+    SHIPPING_PERCENTAGE, SHIPPING_ABSOLUTE, SHIPPING_FIXED_PRICE = (
+        'Shipping percentage', 'Shipping absolute', 'Shipping fixed price')
+
+    TYPE_CHOICES = (
+        (PERCENTAGE, _("Discount is a percentage off of the product's value")),
+        (FIXED, _("Discount is a fixed amount off of the product's value")),
+        (FIXED_PER_PRODUCT, _("Discount is a fixed amount off of each product's value that match condition")),
+        (MULTIBUY, _("Discount is to give the cheapest product for free")),
+        (FIXED_PRICE,
+         _("Get the products that meet the condition for a fixed price")),
+        (SHIPPING_ABSOLUTE,
+         _("Discount is a fixed amount of the shipping cost")),
+        (SHIPPING_FIXED_PRICE, _("Get shipping for a fixed price")),
+        (SHIPPING_PERCENTAGE, _("Discount is a percentage off of the shipping"
+                                " cost")),
+    )
+    type = models.CharField(_("Type"), max_length=128, choices=TYPE_CHOICES, blank=True)
 
     def get_price_incl_discount(self, price):
         if self.type in [self.PERCENTAGE, self.FIXED]:
@@ -31,7 +50,7 @@ class Benefit(AbstractBenefit):
     def proxy_map(self):
         custom_proxy_map = super().proxy_map
         custom_proxy_map[self.PERCENTAGE] = get_class('offer.benefits', 'CustomPercentageDiscountBenefit')
-        custom_proxy_map[self.FIXED] = get_class('offer.benefits', 'AbsoluteDiscountBenefit')
+        custom_proxy_map[self.FIXED_PER_PRODUCT] = get_class('offer.benefits', 'CustomAbsoluteDiscountPerProductBenefit')
         return custom_proxy_map
 
 
