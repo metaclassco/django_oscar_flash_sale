@@ -46,5 +46,4 @@ def calculate_product_price_incl_discounts(product, price_data):
     if result:
         return price - result.discount
 
-    print(result, benefit, benefit.type)
     return price
