@@ -49,7 +49,6 @@ class CustomAbsoluteDiscountPerProductBenefit(AbsoluteDiscountBenefit):
             lines_to_discount.append((line, price, qty))
             num_affected_items += qty
 
-
         discount_amount = self.value * num_affected_items
         return super().apply(
             basket, condition, offer, discount_amount=discount_amount, max_total_discount=max_total_discount, **kwargs
