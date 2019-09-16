@@ -19,11 +19,17 @@
             {% endif %}
         </span>
         {% if is_on_sale %}
-            &nbsp;
             {% calculate_product_price_incl_discounts product session.price as sale_price %}
             {{ sale_price|currency:session.price.currency }}
         {% endif %}
     </p>
+    <div style="font-size: 0.9em; margin-top:-10px;">
+      {% if is_on_sale %}
+         {% get_flash_sale_offer product as flash_sale_offer %}
+          <b>Discount available till:</b><br>
+         {{ flash_sale_offer.end_datetime|date:'Y-m-d H:i' }}
+      {% endif %}
+    </div>
 {% else %}
     <p class="price_color">&nbsp;</p>
 {% endif %}
