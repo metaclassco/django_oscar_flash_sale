@@ -38,19 +38,17 @@ class Benefit(AbstractBenefit):
     )
     type = models.CharField(_("Type"), max_length=128, choices=TYPE_CHOICES, blank=True)
 
-    def get_price_incl_discount(self, price):
-        if self.type in [self.PERCENTAGE, self.FIXED]:
-            return price - self.proxy().get_discount(price)
-
     def apply_to_product(self, price):
-        if self.type in [self.PERCENTAGE, self.FIXED]:
+        if self.type in [self.PERCENTAGE, self.FIXED_PRICE, self.FIXED_PER_PRODUCT]:
             return self.proxy().apply_to_product(price)
 
     @property
     def proxy_map(self):
         custom_proxy_map = super().proxy_map
         custom_proxy_map[self.PERCENTAGE] = get_class('offer.benefits', 'CustomPercentageDiscountBenefit')
-        custom_proxy_map[self.FIXED_PER_PRODUCT] = get_class('offer.benefits', 'CustomAbsoluteDiscountPerProductBenefit')
+        custom_proxy_map[self.FIXED_PER_PRODUCT] = get_class(
+            'offer.benefits', 'CustomAbsoluteDiscountPerProductBenefit'
+        )
         return custom_proxy_map
 
 
