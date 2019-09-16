@@ -35,9 +35,7 @@ class FlashSaleCreateView(FormView):
             product_range.add_product(self.product)
 
         condition = Condition.objects.create(range=product_range, type=Condition.COUNT, value=1)
-        benefit = Benefit.objects.create(
-            range=product_range, type=benefit_type, value=benefit_value, max_affected_items=1
-        )
+        benefit = Benefit.objects.create(range=product_range, type=benefit_type, value=benefit_value)
         offer_name = 'Flash sale for product "%s(#%s)" from %s till %s' % (
             self.product.get_title(),
             self.product.pk,
