@@ -9,9 +9,14 @@ Benefit = get_model('offer', 'Benefit')
 
 
 class FlashSaleForm(forms.Form):
+    TYPE_CHOICES = (
+        (Benefit.PERCENTAGE, _("Discount is a percentage off of the product's value")),
+        (Benefit.FIXED_PER_PRODUCT, _("Discount is a fixed amount off of each product's value that match condition")),
+    )
+
     start_datetime = forms.DateTimeField(
         widget=widgets.DateTimePickerInput(), label=_("Start date"), required=False)
     end_datetime = forms.DateTimeField(
         widget=widgets.DateTimePickerInput(), label=_("End date"), required=False)
-    benefit_type = forms.ChoiceField(choices=Benefit.TYPE_CHOICES[0:2])
+    benefit_type = forms.ChoiceField(choices=TYPE_CHOICES)
     benefit_value = forms.DecimalField()
