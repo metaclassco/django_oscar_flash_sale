@@ -1,12 +1,7 @@
 from decimal import Decimal as D
 
-from oscar.core.loading import get_class
-
+from oscar.apps.offer.benefits import AbsoluteDiscountBenefit, FixedPriceBenefit, PercentageDiscountBenefit
 from .results import ProductDiscount
-
-
-PercentageDiscountBenefit = get_class('offer.benefits', 'PercentageDiscountBenefit')
-AbsoluteDiscountBenefit = get_class('offer.benefits', 'AbsoluteDiscountBenefit')
 
 
 __all__ = ['PercentageDiscountBenefit', 'AbsoluteDiscountBenefit']
@@ -16,6 +11,12 @@ class CustomPercentageDiscountBenefit(PercentageDiscountBenefit):
 
     def apply_to_product(self, price):
         discount = self.round(self.value / D('100.0') * price)
+        return ProductDiscount(discount)
+
+
+class CustomFixedPriceBenefit(FixedPriceBenefit):
+    def apply_to_product(self, price):
+        discount = price - self.value
         return ProductDiscount(discount)
 
 

@@ -46,6 +46,7 @@ class Benefit(AbstractBenefit):
     def proxy_map(self):
         custom_proxy_map = super().proxy_map
         custom_proxy_map[self.PERCENTAGE] = get_class('offer.benefits', 'CustomPercentageDiscountBenefit')
+        custom_proxy_map[self.FIXED_PRICE] = get_class('offer.benefits', 'CustomFixedPriceBenefit')
         custom_proxy_map[self.FIXED_PER_PRODUCT] = get_class(
             'offer.benefits', 'CustomAbsoluteDiscountPerProductBenefit'
         )
